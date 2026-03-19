@@ -23,7 +23,6 @@ return RectorConfig::configure()
     ->withSkip([
         __DIR__.'/bootstrap/cache',
         __DIR__.'/storage',
-        __DIR__.'/vendor',
         AddClosureVoidReturnTypeWhereNoReturnRector::class,
         ReturnTypeFromStrictTypedCallRector::class,
         ReturnUnionTypeRector::class,
@@ -36,6 +35,10 @@ return RectorConfig::configure()
     ->withSetProviders(LaravelSetProvider::class)
     ->withImportNames()
     ->withComposerBased(laravel: true)
+    // Enable typeDeclarations prepared set for general type improvements, but omit specific
+    // type-declaration rules (AddClosureVoidReturnTypeWhereNoReturnRector, etc.) as they are
+    // skipped. DeclareStrictTypesRector is explicitly applied globally except for Blade
+    // templates (resources/views) to enforce strict types.
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,
