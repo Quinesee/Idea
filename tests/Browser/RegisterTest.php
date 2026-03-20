@@ -11,7 +11,7 @@ it('registers a user', function () {
         ->fill('email', 'jane@test.com')
         ->fill('password', 'password1234')
         ->click('Create account')
-        ->assertPathIs('/');
+        ->assertPathIs('/ideas');
 
     $this->assertAuthenticated();
 
@@ -27,7 +27,8 @@ it('requires a name with min of 3 characters', function () {
         ->fill('email', 'jane@email.com')
         ->fill('password', 'password1234')
         ->click('Create account')
-        ->assertPathIs('/register');
+        ->assertPathIs('/register')
+        ->assertSee('The name field must be at least 3 characters.');
 });
 
 it('requires a valid email', function () {
@@ -46,7 +47,7 @@ it('requires a password with min of 8 characters', function () {
         ->fill('password', '1234')
         ->click('Create account')
         ->assertPathIs('/register')
-        ->assertSee('The password must be at least 8 characters.');
+        ->assertSee('The password field must be at least 8 characters.');
 });
 
 it('requires a unique email', function () {

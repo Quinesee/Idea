@@ -17,11 +17,6 @@
     themes: dracula --default;
 }
 
-html,
-body {
-    @apply font-serif;
-}
-
 h1,
 h2,
 h3,

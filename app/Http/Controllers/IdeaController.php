@@ -7,15 +7,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreIdeaRequest;
 use App\Http\Requests\UpdateIdeaRequest;
 use App\Models\Idea;
+use Illuminate\Support\Facades\Auth;
 
 class IdeaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): void
+    public function index()
     {
-        //
+        $ideas = Auth::user()->ideas;
+
+        return view('idea.index', [
+            'ideas' => $ideas,
+        ]);
     }
 
     /**
@@ -37,10 +42,7 @@ class IdeaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Idea $idea): void
-    {
-        //
-    }
+    public function show(Idea $idea): void {}
 
     /**
      * Show the form for editing the specified resource.

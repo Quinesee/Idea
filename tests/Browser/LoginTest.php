@@ -11,7 +11,7 @@ it('logs in a user', function () {
         ->fill('email', $user->email)
         ->fill('password', 'password1234')
         ->click('@login-button')
-        ->assertPathIs('/');
+        ->assertPathIs('/ideas');
 
     $this->assertAuthenticated();
 });
@@ -23,7 +23,7 @@ it('logs out a user', function () {
 
     visit('/')
         ->click('Log out')
-        ->assertPathIs('/');
+        ->assertPathIs('/login');
 
     $this->assertGuest();
 });
@@ -41,13 +41,13 @@ it('requires valid credentials to log in', function () {
     $this->assertGuest();
 });
 
-it('redirects logged in user from /login to /', function () {
+it('redirects logged in user from /login to /ideas', function () {
     $user = User::factory()->create();
 
     $this->actingAs($user);
 
     visit('/login')
-        ->assertPathIs('/');
+        ->assertPathIs('/ideas');
 
     $this->assertAuthenticated();
 });
