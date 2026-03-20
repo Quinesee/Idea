@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Idea</title>
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -15,6 +15,13 @@
     <main class="max-w-7xl mx-auto">
         {{ $slot }}
     </main>
+
+    @session('success')
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show" x-transition.opacity.duration.300ms role="alert"
+            class="alert alert-success absolute bottom-4 right-4 font-sans font-bold">
+            {{ $value }}
+        </div>
+    @endsession
 </body>
 
 </html>
