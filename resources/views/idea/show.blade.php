@@ -29,7 +29,7 @@
             </div>
 
             <x-card class="mt-6">
-                <div class="cursor-pointer card-body">
+                <div class="cursor-pointer">
                     {{ $idea->description }}
                 </div>
             </x-card>
@@ -41,7 +41,7 @@
                     <div class="space-y-2">
                         @foreach ($idea->links as $link)
                             <x-card href="{{ $link }}" class="text-primary">
-                                <div class="card-body flex flex-row items-center gap-3">
+                                <div class="flex flex-row items-center gap-3">
                                     <x-icons.external-link />
                                     {{ $link }}
                                 </div>
