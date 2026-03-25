@@ -41,6 +41,37 @@
     </div>
 
     <x-modal name="create-idea" title="New Idea">
-        <p>content</p>
+        <form x-data="{ status: 'pending' }" action="{{ route('idea.store') }}" method="POST">
+            @csrf
+
+            <div class="space-y-6">
+                <x-form.field label="Title" name="title" autofocus required />
+
+                <div class="mb-8">
+                    <label for="status" class="label mb-2">Status</label>
+
+                    <div class="join w-full">
+                        @foreach (App\IdeaStatus::cases() as $status)
+                            <button 
+                                @click="status = @js($status->value)"
+                                type="button" 
+                                class="btn btn-secondary join-item"
+                                :class="status === @js($status->value) ? '': 'btn-outline' "
+                            >{{ $status->label() }}</button>
+                        @endforeach
+                    </div>
+                    <input type="hidden" name="status" id="status" :value="status">
+
+                    <x-form.error name="status" />
+                </div>
+
+                <x-form.field label="Description" name="description" type="textarea" />
+
+                <div class="flex justify-between">
+                    <button type="button" class="btn btn-ghost" @click="$dispatch('close-modal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </form>
     </x-modal>
 </x-layout>

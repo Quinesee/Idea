@@ -1,10 +1,25 @@
 @props(['label', 'name', 'type' => 'text'])
 <label for="{{ $name }}" class="floating-label">
-    <input type="{{ $type }}" placeholder="{{ $label }}" name="{{ $name }}" id="{{ $name }}"
-        class="input input-md w-full" value="{{ old($name, '') }}" {{ $attributes }} />
-    <span>{{ $label }}</span>
 
-    @error($name)
-        <p class="text-sm text-error">{{ $message }}</p>
-    @enderror
+    @if($type==='textarea')
+        <textarea
+            placeholder="{{ $label }}"
+            id="{{ $name }}"
+            name="{{ $name }}"
+            class="textarea w-full"
+            {{ $attributes }}
+        >{{ old($name, '') }}</textarea>
+        <span>{{ $label }}</span>
+    @else
+        <input 
+            type="{{ $type }}" 
+            placeholder="{{ $label }}" 
+            id="{{ $name }}"
+            name="{{ $name }}" 
+            class="input input-md w-full" value="{{ old($name, '') }}" 
+            {{ $attributes }} />
+        <span>{{ $label }}</span>
+    @endif
+
+    <x-form.error name="{{ $name }}" />
 </label>
