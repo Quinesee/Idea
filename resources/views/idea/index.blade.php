@@ -57,7 +57,11 @@
         <form
             action="{{ route('idea.store') }}"
             method="POST"
-            x-data="{ status: 'pending' }"
+            x-data="{
+                status: 'pending',
+                newLink: '',
+                links: []
+            }"
         >
             @csrf
 
@@ -102,6 +106,52 @@
                     name="description"
                     type="textarea"
                 />
+
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Links</legend>
+
+                    <template
+                        :key="link"
+                        x-for="(link, index) in links"
+                    >
+                        <div class="flex gap-2">
+                            <input
+                                class="input w-full"
+                                name="links[]"
+                                readonly
+                                type="text"
+                                x-model="link"
+                            />
+                            <button
+                                @click="links.splice(index, 1)"
+                                aria-label="Remove link"
+                                class="btn btn-link btn-square"
+                                type="button"
+                            ><x-icons.close /></button>
+                        </div>
+                    </template>
+
+                    <div class="flex gap-2">
+                        <input
+                            autocomplete="url"
+                            class="input w-full"
+                            data-test="new-link"
+                            id="new-link"
+                            placeholder="https://example.com"
+                            spellcheck="false"
+                            type="url"
+                            x-model="newLink"
+                        />
+                        <button
+                            :disabled="newLink.trim().length === 0"
+                            @click="links.push(newLink.trim()); newLink = ''"
+                            aria-label="Add new link"
+                            class="btn btn-link btn-square"
+                            data-test="submit-new-link-button"
+                            type="button"
+                        ><x-icons.close class="rotate-45" /></button>
+                    </div>
+                </fieldset>
 
                 <div class="flex justify-between">
                     <button
