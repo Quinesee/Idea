@@ -21,6 +21,6 @@ it('creates a new idea', function () {
         'title' => 'Example title',
         'status' => 'in_progress',
         'description' => 'Example description',
-        'links' => ['https://test.com', 'https://example.com']
+        'links' => ['https://test.com', 'https://example.com'],
     ]);
 });

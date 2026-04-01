@@ -60,7 +60,9 @@
             x-data="{
                 status: 'pending',
                 newLink: '',
-                links: []
+                links: [],
+                newStep: '',
+                steps: [],
             }"
         >
             @csrf
@@ -106,6 +108,50 @@
                     name="description"
                     type="textarea"
                 />
+
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Actionable Steps</legend>
+
+                    <template
+                        :key="step"
+                        x-for="(step, index) in steps"
+                    >
+                        <div class="flex gap-2">
+                            <input
+                                class="input w-full"
+                                name="steps[]"
+                                readonly
+                                type="text"
+                                x-model="step"
+                            />
+                            <button
+                                @click="steps.splice(index, 1)"
+                                aria-label="Remove step"
+                                class="btn btn-link btn-square"
+                                type="button"
+                            ><x-icons.close /></button>
+                        </div>
+                    </template>
+
+                    <div class="flex gap-2">
+                        <input
+                            class="input w-full"
+                            data-test="new-step"
+                            id="new-step"
+                            placeholder="Gather materials..."
+                            type="text"
+                            x-model="newStep"
+                        />
+                        <button
+                            :disabled="newStep.trim().length === 0"
+                            @click="steps.push(newStep.trim()); newStep = ''"
+                            aria-label="Add new step"
+                            class="btn btn-link btn-square"
+                            data-test="submit-new-step-button"
+                            type="button"
+                        ><x-icons.close class="rotate-45" /></button>
+                    </div>
+                </fieldset>
 
                 <fieldset class="fieldset">
                     <legend class="fieldset-legend">Links</legend>
