@@ -25,6 +25,16 @@
         </div>
 
         <div class="mt-8 space-y-4">
+            @if ($idea->featured_image)
+                <div class="overflow-hidden rounded-xl">
+
+                    <img
+                        alt="{{ $idea->title }} Featured Image"
+                        class="h-auto w-full object-cover"
+                        src="{{ asset('storage/' . $idea->featured_image) }}"
+                    >
+                </div>
+            @endif
 
             <h1 class="h1">{{ $idea->title }}</h1>
 

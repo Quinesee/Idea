@@ -35,6 +35,15 @@
         <div class="grid gap-6 md:grid-cols-2">
             @forelse ($ideas as $idea)
                 <x-card href="{{ route('idea.show', $idea) }}">
+                    @if ($idea->featured_image)
+                        <div class="overflow-hidden rounded-xl">
+                            <img
+                                alt="{{ $idea->title }} Featured Image"
+                                class="h-48 w-full object-cover"
+                                src="{{ asset('storage/' . $idea->featured_image) }}"
+                            >
+                        </div>
+                    @endif
                     <h3 class="card-title">{{ $idea->title }}</h3>
                     <x-idea.status-label status="{{ $idea->status->value }}">
                         {{ $idea->status->label() }}
@@ -56,6 +65,7 @@
     >
         <form
             action="{{ route('idea.store') }}"
+            enctype="multipart/form-data"
             method="POST"
             x-data="{
                 status: 'pending',
@@ -108,6 +118,18 @@
                     name="description"
                     type="textarea"
                 />
+
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Featured Image</legend>
+                    <input
+                        accept="image/*"
+                        class="file-input w-full"
+                        name="image"
+                        type="file"
+                    />
+                    <label class="label">Max size 2MB</label>
+                    <x-form.error name="image" />
+                </fieldset>
 
                 <fieldset class="fieldset">
                     <legend class="fieldset-legend">Actionable Steps</legend>
