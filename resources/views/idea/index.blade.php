@@ -64,8 +64,8 @@
         title="New Idea"
     >
         <form
+            :enctype="hasImage ? 'multipart/form-data' : false"
             action="{{ route('idea.store') }}"
-            enctype="multipart/form-data"
             method="POST"
             x-data="{
                 status: 'pending',
@@ -73,6 +73,7 @@
                 links: [],
                 newStep: '',
                 steps: [],
+                hasImage: false,
             }"
         >
             @csrf
@@ -122,6 +123,7 @@
                 <fieldset class="fieldset">
                     <legend class="fieldset-legend">Featured Image</legend>
                     <input
+                        @change="hasImage = $event.target.files.length > 0"
                         accept="image/*"
                         class="file-input w-full"
                         name="image"
