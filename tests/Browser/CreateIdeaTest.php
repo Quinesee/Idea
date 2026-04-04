@@ -28,5 +28,6 @@ it('creates a new idea', function () {
         'links' => ['https://test.com', 'https://example.com'],
     ]);
 
-    expect($idea->steps()->count())->toBe(2);
+    expect($idea->steps()->pluck('description')->toArray())
+        ->toBe(['Step 1', 'Step 2']);
 });
