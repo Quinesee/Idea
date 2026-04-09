@@ -8,7 +8,12 @@
                 ideas</a>
 
             <div class="flex gap-4">
-                <button class="btn btn-outline btn-primary">Edit Idea</button>
+                <button
+                    @click="$dispatch('open-modal', 'edit-idea')"
+                    class="btn btn-outline btn-primary"
+                    data-test="edit-idea-button"
+                    x-data
+                >Edit Idea</button>
                 <form
                     action="{{ route('idea.destroy', $idea) }}"
                     method="POST"
@@ -47,11 +52,13 @@
                 </div>
             </div>
 
-            <x-card class="mt-6">
-                <div class="cursor-pointer">
-                    {{ $idea->description }}
-                </div>
-            </x-card>
+            @if ($idea->description)
+                <x-card class="mt-6">
+                    <div class="cursor-pointer">
+                        {{ $idea->description }}
+                    </div>
+                </x-card>
+            @endif
 
             @if ($idea->steps->count())
                 <div>
@@ -106,5 +113,5 @@
         </div>
     </div>
 
-
+    <x-idea.modal :idea="$idea" />
 </x-layout>

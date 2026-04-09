@@ -1,23 +1,28 @@
-@props(['label', 'name', 'type' => 'text'])
-<label for="{{ $name }}" class="floating-label">
+@props(['label', 'name', 'type' => 'text', 'value' => null])
+<label
+    class="floating-label"
+    for="{{ $name }}"
+>
 
-    @if($type==='textarea')
+    @if ($type === 'textarea')
         <textarea
-            placeholder="{{ $label }}"
+            {{ $attributes }}
+            class="textarea w-full"
             id="{{ $name }}"
             name="{{ $name }}"
-            class="textarea w-full"
-            {{ $attributes }}
-        >{{ old($name, '') }}</textarea>
+            placeholder="{{ $label }}"
+        >{{ old($name, $value) }}</textarea>
         <span>{{ $label }}</span>
     @else
-        <input 
-            type="{{ $type }}" 
-            placeholder="{{ $label }}" 
+        <input
+            {{ $attributes }}
+            class="input input-md w-full"
             id="{{ $name }}"
-            name="{{ $name }}" 
-            class="input input-md w-full" value="{{ old($name, '') }}" 
-            {{ $attributes }} />
+            name="{{ $name }}"
+            placeholder="{{ $label }}"
+            type="{{ $type }}"
+            value="{{ old($name, $value) }}"
+        />
         <span>{{ $label }}</span>
     @endif
 
