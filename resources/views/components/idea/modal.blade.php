@@ -13,7 +13,7 @@
             newLink: '',
             links: @js(old('links', $idea->links ?? [])),
             newStep: '',
-            steps: @js(old('steps', $idea->steps->pluck('description'))),
+            steps: @js(old('steps', $idea->steps->map->only(['id', 'description', 'completed']))),
             hasImage: false,
         }"
     >
@@ -21,6 +21,16 @@
 
         @if ($idea->exists)
             @method('PATCH')
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
 
         <div class="space-y-6">
@@ -101,16 +111,21 @@
                 <legend class="fieldset-legend">Actionable Steps</legend>
 
                 <template
-                    :key="step"
+                    :key="step.id || index"
                     x-for="(step, index) in steps"
                 >
                     <div class="flex gap-2">
                         <input
+                            :name="`steps[${index}][description]`"
+                            :value="step.description"
                             class="input w-full"
-                            name="steps[]"
                             readonly
                             type="text"
-                            x-model="step"
+                        />
+                        <input
+                            :name="`steps[${index}][completed]`"
+                            :value="step.completed ? '1' : '0'"
+                            type="hidden"
                         />
                         <button
                             @click="steps.splice(index, 1)"
@@ -132,7 +147,10 @@
                     />
                     <button
                         :disabled="newStep.trim().length === 0"
-                        @click="steps.push(newStep.trim()); newStep = ''"
+                        @click="
+                            steps.push({description: newStep.trim(), completed: false}); 
+                            newStep = '';
+                        "
                         aria-label="Add new step"
                         class="btn btn-link btn-square"
                         data-test="submit-new-step-button"
